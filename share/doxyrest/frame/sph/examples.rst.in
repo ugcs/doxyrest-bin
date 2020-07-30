@@ -1,0 +1,43 @@
+%{
+--------------------------------------------------------------------------------
+--
+--  This file is part of the Doxyrest toolkit.
+--
+--  Doxyrest is distributed under the MIT license.
+--  For details see accompanying license.txt file,
+--  the public copy of which is also available at:
+--  http://tibbo.com/downloads/archive/doxyrest/license.txt
+--
+--------------------------------------------------------------------------------
+
+local argArray = table.pack(...)
+local exampleArray = argArray[1]
+}
+.. index:: pair: examples; examples
+
+Examples
+========
+
+.. toctree::
+	:hidden:
+
+%{
+	table.sort(exampleArray, cmpNames)
+	local exampleList = ""
+
+	for i = 1, #exampleArray do
+		local example = exampleArray[i]
+		local targetFileName = getItemFileName(example)
+		local docName = string.gsub(targetFileName, "%.rst$", "")
+
+		generateFile(targetFileName, "example.rst.in", example)
+		exampleList = exampleList .. "|\t:doc:`" .. docName .."`\n"
+}
+	$(targetFileName)
+%{
+	end -- for
+}
+
+.. rubric:: Examples:
+
+$exampleList
